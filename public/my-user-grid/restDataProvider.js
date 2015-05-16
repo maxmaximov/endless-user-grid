@@ -14,7 +14,7 @@ grid.service('restDataProvider', ['$http', '$q', function($http, $q) {
     this.get = function (from, to, sortKey, sortOrder) {
         var deferred = $q.defer();
 
-        $http.get('/demo/data/mock.json').
+        $http.get(this.url).
             success(function(data, status, headers, config) {
                 var _data = data.sort(sort.bind(this, sortKey, sortOrder)).slice(from, to);
                 deferred.resolve(_data);
