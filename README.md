@@ -18,4 +18,4 @@ npm start
 ```
 [http://localhost:3000/demo/](http://localhost:3000/demo/)
 
-## [Online demo](https://github.com/maxmaximov/my-user-grid/edit/master/README.md)
+## [Online demo](https://maxmaximov.github.io/my-user-grid)
