@@ -5,6 +5,12 @@
 
         <script src="/my-user-grid/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/my-user-grid/bower_components/angular/angular.min.js"></script>
+
+        <script>
+            $.get('/my-user-grid/data/mock.json', function (data) {
+                localStorage.setItem('my-data', JSON.stringify(data));
+            });
+        </script>
         <script src="/my-user-grid/demo.js"></script>
     </head>
     <body>

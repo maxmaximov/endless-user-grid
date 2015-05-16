@@ -1402,11 +1402,7 @@ require('../my-user-grid/my-user-grid');
 
 var app = angular.module('demo', ['myUserGrid']);
 
-$.get('/demo/data/mock.json', function (data) {
-    localStorage.setItem('my-data', JSON.stringify(data));
-});
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_96061727.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8e2282b3.js","/")
 },{"../my-user-grid/my-user-grid":8,"buffer":1,"oMfpAn":4}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
