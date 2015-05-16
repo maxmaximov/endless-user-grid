@@ -1,0 +1,14 @@
+@import '/ng-user-grid/ng-user-grid.css';
+
+body {
+    font: 12px Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-container {
+    margin: 50px;
+    width: 900px;
+    height: 400px;
+    overflow: auto;
+}

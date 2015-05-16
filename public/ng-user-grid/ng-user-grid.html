@@ -1,0 +1,26 @@
+<div class="ng-user-grid">
+    <div class="ng-user-grid__header">
+        <div class="ng-user-grid__toolbar">
+        </div>
+
+        <div class="ng-user-grid__head">
+            <a class="ng-user-grid__head__item" href ng-class="{ 'ng-user-grid__head__item_active': sortKey === 'login' }" style="width: 25%;" ng-click="sort('login')">Login</a>
+            <a class="ng-user-grid__head__item" href ng-class="{ 'ng-user-grid__head__item_active': sortKey === 'name' }" style="width: 35%;" ng-click="sort('name')">Name</a>
+            <a class="ng-user-grid__head__item" href ng-class="{ 'ng-user-grid__head__item_active': sortKey === 'email' }" style="width: 10%;" ng-click="sort('email')">Email</a>
+            <a class="ng-user-grid__head__item" href ng-class="{ 'ng-user-grid__head__item_active': sortKey === 'groups' }" style="width: 10%;" ng-click="sort('groups')">Groups</a>
+            <a class="ng-user-grid__head__item" href ng-class="{ 'ng-user-grid__head__item_active': sortKey === 'roles' }" style="width: 10%;" ng-click="sort('roles')">Own Roles</a>
+        </div>
+    </div>
+
+    <div class="ng-user-grid__body">
+        <div class="ng-user-grid__body__wrapper">
+            <div ng-repeat="user in list" class="ng-user-grid__body__row">
+                <div class="ng-user-grid__body__item" style="width: 25%;">{{ user.login }}</div>
+                <div class="ng-user-grid__body__item" style="width: 35%;">{{ user.name }}</div>
+                <div class="ng-user-grid__body__item" style="width: 10%;">{{ user.email }}</div>
+                <div class="ng-user-grid__body__item" style="width: 10%;"></div>
+                <div class="ng-user-grid__body__item" style="width: 10%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
