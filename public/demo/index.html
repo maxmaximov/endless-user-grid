@@ -8,8 +8,15 @@
         <script src="/min/demo/demo.js"></script>
     </head>
     <body>
+        <h1>my-user-grid demo</h1>
+        <h2>&lt;my-user-grid source="rest" url="/demo/data/mock.json"/></h2>
         <div class="grid-container">
-            <ng-user-grid/>
-        <div>
+            <my-user-grid source="rest" url="/demo/data/mock.json"/>
+        </div>
+
+        <h2>&lt;my-user-grid source="localstorage" prefix="my"/></h2>
+        <div class="grid-container">
+            <my-user-grid source="localstorage" prefix="my"/>
+        </div>
     </body>
 </html>

@@ -1,7 +1,9 @@
 'use strict';
 
-require('../ng-user-grid/ng-user-grid');
+require('../my-user-grid/my-user-grid');
 
-console.log('demo');
+var app = angular.module('demo', ['myUserGrid']);
 
-var app = angular.module('demo', ['ngUserGrid']);
+$.get('/demo/data/mock.json', function (data) {
+    localStorage.setItem('my-data', JSON.stringify(data));
+});
