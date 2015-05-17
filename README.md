@@ -1,5 +1,5 @@
 # my-user-grid
-Angular directive for user data grid. With "endless" scroll and remote and local storages support.
+Angular directive for user data grid. With "endless" scroll and remote and local sources support.
 ## Usage
 Remote HTTP data source:
 ```html
