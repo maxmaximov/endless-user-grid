@@ -5,6 +5,12 @@
 
         <script src="/bower_components/jquery/dist/jquery.js"></script>
         <script src="/bower_components/angular/angular.js"></script>
+
+        <script>
+            $.get('/demo/data/mock.json', function (data) {
+                localStorage.setItem('my-data', JSON.stringify(data));
+            });
+        </script>
         <script src="/min/demo/demo.js"></script>
     </head>
     <body>
