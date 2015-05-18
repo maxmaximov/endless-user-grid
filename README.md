@@ -1,5 +1,5 @@
 # endless-user-grid
-User data grid on Angular. With "endless" scroll and remote and local storages support.
+Angular Data Grid. With "endless" scroll and remote and local storages support.
 ## Usage
 Remote HTTP data source:
 ```html
