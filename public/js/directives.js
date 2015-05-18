@@ -52,6 +52,6 @@ app.directive('ngEndlessScroll', ['$window', '$document', function ($window, $do
 app.directive('ngGrid', function () {
     return {
         restrict: 'EA',
-        templateUrl: '/grid.html'
+        templateUrl: 'grid.html'
     }
 });
