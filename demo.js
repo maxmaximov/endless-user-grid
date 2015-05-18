@@ -1398,21 +1398,10 @@ process.chdir = function (dir) {
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-require('../my-user-grid/my-user-grid');
+var app = angular.module('app');
 
-var app = angular.module('demo', ['myUserGrid']);
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8e2282b3.js","/")
-},{"../my-user-grid/my-user-grid":8,"buffer":1,"oMfpAn":4}],6:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-'use strict';
-
-var grid = angular.module('myUserGrid');
-
-grid.controller('UserGridController', ['$scope', 'restDataProvider', 'localstorageDataProvider', function ($scope, restDataProvider, localstorageDataProvider) {
+app.controller('GridController', ['$scope', 'restDataProvider', 'localstorageDataProvider', function ($scope, restDataProvider, localstorageDataProvider) {
     var pageSize = 20;
-    var maxFrameSize = 100;
-    var frameStart = 0;
     var frameEnd = -1;
     var loading = false;
 
@@ -1420,13 +1409,13 @@ grid.controller('UserGridController', ['$scope', 'restDataProvider', 'localstora
     $scope.sortKey = 'login';
     $scope.sortOrder = 1;
 
-    $scope.buildProvider = function (source, param) {
+    $scope.init = function (source, param) {
         if (source === 'rest') {
-            restDataProvider.url = param;
             $scope.provider = restDataProvider;
+            $scope.provider.url = param;
         } else if (source === 'localstorage') {
-            localstorageDataProvider.prefix = param;
             $scope.provider = localstorageDataProvider;
+            $scope.provider.prefix = param;
         } else {
             throw new Error('Unknown DataProvider type');
         }
@@ -1442,14 +1431,12 @@ grid.controller('UserGridController', ['$scope', 'restDataProvider', 'localstora
             $scope.sortKey = key;
         }
 
-        $scope.list = [];
-        frameStart = 0;
         frameEnd = -1;
-        $scope.append();
-    }
+        $scope.append(true);
+    };
 
-    $scope.append = function() {
-        if (loading) return;
+    $scope.append = function(clear) {
+        if (loading || !$scope.provider) return;
 
         var start = frameEnd + 1;
         var end = start + pageSize - 1;
@@ -1457,13 +1444,12 @@ grid.controller('UserGridController', ['$scope', 'restDataProvider', 'localstora
         loading = true;
 
         $scope.provider.get(start, end + 1, $scope.sortKey, $scope.sortOrder).then(function (data) {
-            var _list = $scope.list.concat(data);
-            var oversize = _list.length - maxFrameSize;
+            var _list = [];
 
-            if (oversize > 0) {
-                _list = _list.slice(oversize);
-                $scope.oversize(oversize);
-                frameStart += oversize;
+            if (clear) {
+                _list = data;
+            } else {
+                _list = $scope.list.concat(data);
             }
 
             frameEnd = end;
@@ -1472,133 +1458,96 @@ grid.controller('UserGridController', ['$scope', 'restDataProvider', 'localstora
         }, function () {
         });
     };
-
-    $scope.prepend = function() {
-        if (loading) return;
-
-        var end = frameStart - 1;
-        if (end < 0) return 0;
-
-        var start = end - pageSize + 1;
-        if (start < 0) {
-        }
-
-        loading = true;
-
-        $scope.provider.get(start, end + 1, $scope.sortKey, $scope.sortOrder).then(function (data) {
-            var _list = data.concat($scope.list);
-            var oversize = _list.length - maxFrameSize;
-
-            if (oversize > 0) {
-                _list = _list.slice(0, maxFrameSize);
-                $scope.oversize(oversize);
-                frameEnd -= oversize;
-            }
-
-            frameStart = start;
-            $scope.list = _list;
-            loading = false;
-        }, function () {
-        });
-    };
 }]);
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../my-user-grid/UserGridController.js","/../my-user-grid")
-},{"buffer":1,"oMfpAn":4}],7:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controllers.js","/")
+},{"buffer":1,"oMfpAn":4}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-var grid = angular.module('myUserGrid');
+var app = angular.module('app');
 
-grid.service('localstorageDataProvider', ['$http', '$q', '$window', function($http, $q, $window) {
-    this.prefix;
-
-    function sort(sortKey, sortOrder, a, b) {
-        if (a[sortKey] > b[sortKey]) return sortOrder;
-        if (a[sortKey] < b[sortKey]) return sortOrder * -1;
-        return 0;
-    }
-
-    this.get = function (from, to, sortKey, sortOrder) {
-        var deferred = $q.defer();
-
-        try {
-            var _data = JSON.parse($window.localStorage.getItem(this.prefix + '-data'))
-                .sort(sort.bind(this, sortKey, sortOrder))
-                .slice(from, to);
-
-            deferred.resolve(_data);
-        } catch (e) {
-            deferred.reject();
-        }
-
-        return deferred.promise;
-    }
-}]);
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../my-user-grid/localstorageDataProvider.js","/../my-user-grid")
-},{"buffer":1,"oMfpAn":4}],8:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-'use strict';
-
-var grid = angular.module('myUserGrid', []);
-
-require('./myUserGrid');
-require('./restDataProvider');
-require('./localstorageDataProvider');
-require('./UserGridController');
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../my-user-grid/my-user-grid.js","/../my-user-grid")
-},{"./UserGridController":6,"./localstorageDataProvider":7,"./myUserGrid":9,"./restDataProvider":10,"buffer":1,"oMfpAn":4}],9:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-'use strict';
-
-var grid = angular.module('myUserGrid');
-
-grid.directive('myUserGrid', function () {
+app.directive('ngFixedToolbar', ['$window', function ($window) {
     function link(scope, element, attrs) {
-        scope.buildProvider(attrs.source, attrs.url || attrs.prefix);
-
-        var viewport = element.find('.my-user-grid__body');
-        var wrapper = element.find('.my-user-grid__body__wrapper');
-
-        var viewportHeight = viewport.height();
-
-        scope.oversize = function (n) {
-            var rowHeight = element.find('.my-user-grid__body__row').height();
-            var scrollTop = viewport.scrollTop();
-            viewport.scrollTop(scrollTop + n * (rowHeight + 1));
-        }
+        var toolbarTop = element.position().top;
+        var toolbarWidth = element.width();
+        var viewport = $($window);
 
         viewport.on('scroll', function () {
-            var wrapperHeight = wrapper.height();
-            var scrollTop = viewport.scrollTop();
-
-            if (wrapperHeight - viewportHeight - scrollTop < 100) {
-                scope.append();
-            } else if (scrollTop < 200) {
-                scope.prepend();
+            if (viewport.scrollTop() >= toolbarTop) {
+                element.addClass('grid__toolbar_fixed').width(toolbarWidth);
+            } else {
+                element.removeClass('grid__toolbar_fixed').width('auto');
             }
         });
     }
 
     return {
-        templateUrl: '/my-user-grid/my-user-grid.html',
-        controller: 'UserGridController',
+        restrict: 'A',
+        link: link
+    }
+}]);
+
+app.directive('ngEndlessScroll', ['$window', '$document', function ($window, $document) {
+    function link(scope, element, attrs) {
+        var viewport = $($window);
+        var viewportHeight = viewport.height();
+
+        viewport.on('scroll', function () {
+            var documentHeight = $($document).height();
+            var scrollTop = viewport.scrollTop();
+
+            if (documentHeight - viewportHeight - scrollTop < 200) {
+                scope.append();
+            }
+        });
+    }
+
+    return {
+        restrict: 'A',
+        scope: {
+            append: '&ngEndlessScrollAppend'
+        },
+        transclude: true,
         link: link,
-        scope: {},
-        replace: true
+        template: '<div class="ng-endless-scroll" ng-transclude></div>'
+    }
+}]);
+
+app.directive('ngGrid', function () {
+    return {
+        restrict: 'EA',
+        templateUrl: 'grid.html'
     }
 });
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../my-user-grid/myUserGrid.js","/../my-user-grid")
-},{"buffer":1,"oMfpAn":4}],10:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/directives.js","/")
+},{"buffer":1,"oMfpAn":4}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 
-var grid = angular.module('myUserGrid');
+try {
+    if (!JSON.parse(localStorage.getItem('test-data')).length) throw new Error();
+} catch (e) {
+    $.get('data/mock.json', function (data) {
+        localStorage.setItem('test-data', JSON.stringify(data));
+    });
+}
 
-grid.service('restDataProvider', ['$http', '$q', function($http, $q) {
+var app = angular.module('app', []);
+
+require('./services');
+require('./controllers');
+require('./directives');
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_185a9da9.js","/")
+},{"./controllers":5,"./directives":6,"./services":8,"buffer":1,"oMfpAn":4}],8:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+'use strict';
+
+var app = angular.module('app');
+
+app.service('restDataProvider', ['$http', '$q', function($http, $q) {
     this.url;
 
     function sort(sortKey, sortOrder, a, b) {
@@ -1624,5 +1573,31 @@ grid.service('restDataProvider', ['$http', '$q', function($http, $q) {
     }
 }]);
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../my-user-grid/restDataProvider.js","/../my-user-grid")
-},{"buffer":1,"oMfpAn":4}]},{},[5])
+app.service('localstorageDataProvider', ['$http', '$q', '$window', function($http, $q, $window) {
+    this.prefix;
+
+    function sort(sortKey, sortOrder, a, b) {
+        if (a[sortKey] > b[sortKey]) return sortOrder;
+        if (a[sortKey] < b[sortKey]) return sortOrder * -1;
+        return 0;
+    }
+
+    this.get = function (from, to, sortKey, sortOrder) {
+        var deferred = $q.defer();
+
+        try {
+            var _data = JSON.parse($window.localStorage.getItem(this.prefix + '-data'))
+                .sort(sort.bind(this, sortKey, sortOrder))
+                .slice(from, to);
+
+            deferred.resolve(_data);
+        } catch (e) {
+            deferred.reject();
+        }
+
+        return deferred.promise;
+    }
+}]);
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/services.js","/")
+},{"buffer":1,"oMfpAn":4}]},{},[7])

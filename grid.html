@@ -1,0 +1,22 @@
+<div class="grid__toolbar-placeholder">
+    <div class="grid__toolbar" ng-fixed-toolbar>
+    </div>
+</div>
+
+<div class="grid__head">
+    <a class="grid__head__item grid__login" href ng-class="{ 'grid__head__item_active': sortKey === 'login' }" ng-click="sort('login')">Login</a>
+    <a class="grid__head__item grid__name" href ng-class="{ 'grid__head__item_active': sortKey === 'name' }" ng-click="sort('name')">Name</a>
+    <a class="grid__head__item grid__email" href ng-class="{ 'grid__head__item_active': sortKey === 'email' }" ng-click="sort('email')">Email</a>
+    <a class="grid__head__item grid__groups" href ng-class="{ 'grid__head__item_active': sortKey === 'groups' }" ng-click="sort('groups')">Groups</a>
+    <a class="grid__head__item grid__roles" href ng-class="{ 'grid__head__item_active': sortKey === 'roles' }" ng-click="sort('roles')">Own Roles</a>
+</div>
+
+<div class="grid__body" ng-endless-scroll ng-endless-scroll-append="append()">
+    <div ng-repeat="user in list" class="grid__body__row">
+        <div class="grid__body__item grid__login">{{ user.login }}</div>
+        <div class="grid__body__item grid__name">{{ user.name }}</div>
+        <div class="grid__body__item grid__email">{{ user.email }}</div>
+        <div class="grid__body__item grid__groups">{{ user.groups }}</div>
+        <div class="grid__body__item grid__roles">{{ user.roles }}</div>
+    </div>
+</div>
