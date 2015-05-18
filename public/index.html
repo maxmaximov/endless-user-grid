@@ -1,0 +1,20 @@
+<!doctype html>
+<html ng-app="app">
+    <head>
+        <link href="/css/app.css" rel="stylesheet"/>
+
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/min/js/app.js"></script>
+    </head>
+    <body>
+        <h1>endless user grid demo</h1>
+
+        <nav>
+            <h2>REST</h2>
+            <h2><a href="/local.html">localStorage</a></h2>
+        </nav>
+
+        <div class="grid" ng-controller="GridController" ng-init="init('rest', '/data/mock.json')" ng-grid/>
+    </body>
+</html>

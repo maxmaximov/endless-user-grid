@@ -3,7 +3,7 @@
 var http = require('http');
 var path = require('path');
 var express = require('express');
-var debug = require('debug')('my-user-grid:server');
+var debug = require('debug')('endless-user-grid:server');
 
 var app = express();
 
