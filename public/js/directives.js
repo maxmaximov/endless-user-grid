@@ -2,6 +2,13 @@
 
 var app = angular.module('app');
 
+app.directive('ngGrid', function () {
+    return {
+        restrict: 'EA',
+        templateUrl: 'grid.html'
+    }
+});
+
 app.directive('ngFixedToolbar', ['$window', function ($window) {
     function link(scope, element, attrs) {
         var toolbarTop = element.position().top;
@@ -48,10 +55,3 @@ app.directive('ngEndlessScroll', ['$window', '$document', function ($window, $do
         template: '<div class="ng-endless-scroll" ng-transclude></div>'
     }
 }]);
-
-app.directive('ngGrid', function () {
-    return {
-        restrict: 'EA',
-        templateUrl: 'grid.html'
-    }
-});
