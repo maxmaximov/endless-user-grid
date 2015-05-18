@@ -23,5 +23,5 @@ npm start
 [http://localhost:3000/](http://localhost:3000/)
 
 ## Online demo
-* [REST](https://maxmaximov.github.io/my-user-grid)
-* [LocalStorage](https://maxmaximov.github.io/my-user-grid/local)
+* [REST](https://maxmaximov.github.io/endless-user-grid)
+* [LocalStorage](https://maxmaximov.github.io/endless-user-grid/local.html)
